@@ -4,7 +4,7 @@ Script to backup and restore your joined subredits, multireddits, followed users
 
 ## Why, I made this?
 
-Reddit shadow banned my secondary account without specifying any reason. Therefore, I want to transfer my 700+ subreddits, 50+ multireddits, 300+ followed users, 100+ saved posts, 150+ upvoted posts, and 0 downvoted posts to a new account. I made a script to transfer all this data to the new account and start fresh. It's always good to have a backup of your account's user data because anyone can get banned on Reddit at any time without any reason.
+Reddit shadow banned my secondary account without specifying any reasons. Therefore, I wanted to transfer my 700+ subreddits, 50+ multireddits, 300+ followed users, 100+ saved posts, 150+ upvoted posts, and 0 downvoted posts to a new account. I made this script to transfer all this data to the new account and start fresh. **It's always good to have a backup of your account's user data** because anyone can get banned on Reddit at any time without any reason.
 
 </br>
 
@@ -34,6 +34,8 @@ This will create a `backup.json` where all your joined subreddits, multireddits,
 python backup.py account_1_username
 ```
 
+![backup](https://raw.githubusercontent.com/Tetrax-10/reddit-backup-restore/main/assets/backup.png)
+
 </br>
 
 ### 2. **Run this to restore the backup to your secondary account**
@@ -43,6 +45,8 @@ This will restore all your joined subreddits, multireddits, followed users and s
 ```sh
 python restore.py account_2_username
 ```
+
+![restore](https://raw.githubusercontent.com/Tetrax-10/reddit-backup-restore/main/assets/restore.png)
 
 **_Note:_** By default, **upvoted and downvoted posts** will not be restored. Modifying upvotes and downvotes in bulk may trigger _Reddit's automated vote manipulation detector_, which may lead to **permanent ban**. **_Use at your own risk_**. You can modify the config section inside `restore.py` to enable this feature.
 
@@ -56,4 +60,12 @@ If you want to clear an account's user data (unsubscribe all joined subreddits, 
 python clear.py account_username
 ```
 
-again, upvoted posts and downvoted posts will not be cleared by default.
+![clear](https://raw.githubusercontent.com/Tetrax-10/reddit-backup-restore/main/assets/clear.png)
+
+again, upvoted posts and downvoted posts will not be cleared by default. You can modify the config section inside `clear.py` to enable this feature.
+
+</br>
+
+### Caution: Use at Your Own Risk
+
+This script is provided as-is, without any guarantees or warranties. By using this script, you acknowledge and agree that the author will not be responsible or liable for any bans, data loss, or other issues that may arise. Use this script at your own risk. Always ensure you comply with Reddit's terms of service and guidelines when using this script.
