@@ -1,10 +1,10 @@
 # Reddit Backup Restore
 
-Script to backup and restore your joined subredits, multireddits, followed users, saved posts, upvoted posts and downvoted posts.
+Script to backup and restore your joined subreddits, multireddits, followed users, saved posts, upvoted posts and downvoted posts.
 
 ## Why, I made this?
 
-Reddit shadow banned my secondary account without specifying any reasons. Therefore, I wanted to transfer my 700+ subreddits, 50+ multireddits, 300+ followed users, 100+ saved posts, 150+ upvoted posts, and 0 downvoted posts to a new account. I made this script to transfer all this data to the new account and start fresh. **It's always good to have a backup of your account's user data** because anyone can get banned on Reddit at any time without any reason.
+Reddit shadow banned my secondary account without specifying any reasons. Therefore, I wanted to transfer my 700+ subreddits, 50+ multireddits, 300+ followed users, 100+ saved posts, 150+ upvoted posts, and 0 downvoted posts to a new account. I made this script to transfer all these data to my new account and start fresh. **It's always good to have a backup of your account's user data** because anyone can get banned on Reddit at any time without any justifiable reason.
 
 </br>
 

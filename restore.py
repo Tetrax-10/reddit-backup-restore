@@ -31,7 +31,7 @@ except:
     print("Backup unavailable or corrupted.")
     sys.exit()
 
-print("Restoring backup...")
+print(f"Restoring backup on {username}...\n")
 
 
 # Subscribe to subreddits and follow users

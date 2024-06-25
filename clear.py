@@ -20,7 +20,7 @@ else:
 
 reddit = praw.Reddit(username)
 
-print("Clearing account...")
+print(f"Clearing {username}...\n")
 
 # Unsubscribe all subreddits and unfollow all users
 if CLEAR_SUBSCRIPTIONS:
