@@ -1,10 +1,10 @@
 # Reddit Backup Restore
 
-Script to backup and restore your joined subreddits, multireddits, followed users, saved posts, upvoted posts and downvoted posts.
+Script to backup and restore your joined subreddits, multireddits, followed users, saved posts, hidden posts, upvoted posts and downvoted posts.
 
 ## Why, I made this?
 
-Reddit shadow banned my secondary account without specifying any reasons. Therefore, I wanted to transfer my 700+ subreddits, 50+ multireddits, 300+ followed users, 100+ saved posts, 150+ upvoted posts, and 0 downvoted posts to a new account. I made this script to transfer all these data to my new account and start fresh. **It's always good to have a backup of your account's user data** because anyone can get banned on Reddit at any time without any justifiable reason.
+Reddit shadow banned my secondary account without specifying any reasons. Therefore, I wanted to transfer my 700+ subreddits, 50+ multireddits, 300+ followed users, 100+ saved posts and 150+ upvoted posts to a new account. I made this script to transfer all these data to my new account and start fresh. **It's always good to have a backup of your account's user data** because anyone can get banned on Reddit at any time without any justifiable reason.
 
 </br>
 
@@ -28,7 +28,7 @@ Reddit shadow banned my secondary account without specifying any reasons. Theref
 
 ### 1. Run this to backup your main account
 
-This will create a `backup.json` where all your joined subreddits, multireddits, followed users, saved posts, upvoted posts and downvoted posts will be stored.
+This will create a `backup.json` where all your joined subreddits, multireddits, followed users, saved posts, hidden posts, upvoted posts and downvoted posts will be stored.
 
 ```sh
 python backup.py account_1_username
@@ -40,7 +40,7 @@ python backup.py account_1_username
 
 ### 2. **Run this to restore the backup to your secondary account**
 
-This will restore all your joined subreddits, multireddits, followed users and saved posts from `backup.json`.
+This will restore all your joined subreddits, multireddits, followed users saved posts and hidden posts from `backup.json`.
 
 ```sh
 python restore.py account_2_username
@@ -54,7 +54,7 @@ python restore.py account_2_username
 
 ### 3. Extra feature:
 
-If you want to clear an account's user data (unsubscribe all joined subreddits, unfollow all users, delete all multireddits and saved posts), run:
+If you want to clear an account's user data (unsubscribe all joined subreddits, unfollow all users, delete all multireddits, saved posts and hidden posts), run:
 
 ```sh
 python clear.py account_username
