@@ -11,6 +11,10 @@ CLEAR_HIDDEN = True
 CLEAR_UPVOTED = False
 CLEAR_DOWNVOTED = False
 
+# value: True | False
+DELETE_YOUR_POSTS = False
+DELETE_YOUR_COMMENTS = False
+
 # ---------- CONFIG ----------
 
 if sys.argv[1]:
@@ -81,3 +85,23 @@ if CLEAR_DOWNVOTED:
         except:
             print("Can't unvote downvoted post", downvoted_post.id)
     print("Unvoted all downvoted posts.")
+
+
+# Delete all your posts
+if DELETE_YOUR_POSTS:
+    for post in me.submissions.new(limit=None):
+        try:
+            post.delete()
+        except:
+            print("Can't delete post", post.id)
+    print("Deleted all your posts.")
+
+
+# Delete all your comments
+if DELETE_YOUR_COMMENTS:
+    for comment in me.comments.new(limit=None):
+        try:
+            comment.delete()
+        except:
+            print("Can't delete comment", comment.id)
+    print("Deleted all your comments.")

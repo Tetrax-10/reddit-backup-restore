@@ -52,9 +52,9 @@ python restore.py account_2_username
 
 </br>
 
-### 3. Extra feature:
+### 3. Extra feature (clear account's user data):
 
-If you want to clear an account's user data (unsubscribe all joined subreddits, unfollow all users, delete all multireddits, saved posts and hidden posts), run:
+If you want to unsubscribe all joined subreddits, unfollow all users, delete all multireddits, saved posts and hidden posts, run:
 
 ```sh
 python clear.py account_username
@@ -63,6 +63,8 @@ python clear.py account_username
 ![clear](https://raw.githubusercontent.com/Tetrax-10/reddit-backup-restore/main/assets/clear.png)
 
 again, upvoted posts and downvoted posts will not be cleared by default. You can modify the config section inside `clear.py` to enable this feature.
+
+You can also delete all your posts and comments by modifying the config section inside `clear.py`. By default, **your posts and comments will not be deleted**.
 
 </br>
 
