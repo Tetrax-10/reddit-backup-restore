@@ -8,6 +8,7 @@ import praw
 RESTORE_SUBSCRIPTIONS = True
 RESTORE_MULTIREDDITS = True
 RESTORE_SAVED = True
+RESTORE_HIDDEN = True
 RESTORE_UPVOTED = False
 RESTORE_DOWNVOTED = False
 
@@ -35,7 +36,7 @@ print(f"Restoring backup on {username}...\n")
 
 
 # Subscribe to subreddits and follow users
-if RESTORE_SUBSCRIPTIONS:
+if RESTORE_SUBSCRIPTIONS and "subreddits" in backup and "users" in backup:
     subreddit_to_subscribe = backup["subreddits"] + backup["users"]
 
     for subreddit in subreddit_to_subscribe:
@@ -47,7 +48,7 @@ if RESTORE_SUBSCRIPTIONS:
 
 
 # Create multireddits and add subreddits and users
-if RESTORE_MULTIREDDITS:
+if RESTORE_MULTIREDDITS and "multireddits" in backup:
     for multi_name, multi_data in backup["multireddits"].items():
         subreddits = multi_data["subreddits"] + multi_data["users"]
         try:
@@ -58,7 +59,7 @@ if RESTORE_MULTIREDDITS:
 
 
 # Restore saved posts
-if RESTORE_SAVED:
+if RESTORE_SAVED and "saved" in backup:
     backup["saved"].reverse()
     for post_id in backup["saved"]:
         try:
@@ -69,8 +70,20 @@ if RESTORE_SAVED:
     print("Restored saved posts.")
 
 
+# Restore hidden posts
+if RESTORE_HIDDEN and "hidden" in backup:
+    backup["hidden"].reverse()
+    for post_id in backup["hidden"]:
+        try:
+            submission = reddit.submission(id=post_id)
+            submission.hide()
+        except:
+            print("Can't hide post", post_id)
+    print("Restored hidden posts.")
+
+
 # Restore upvoted posts
-if RESTORE_UPVOTED:
+if RESTORE_UPVOTED and "upvoted" in backup:
     for post_id in backup["upvoted"]:
         try:
             submission = reddit.submission(id=post_id)
@@ -81,7 +94,7 @@ if RESTORE_UPVOTED:
 
 
 # Restore downvoted posts
-if RESTORE_DOWNVOTED:
+if RESTORE_DOWNVOTED and "downvoted" in backup:
     for post_id in backup["downvoted"]:
         try:
             submission = reddit.submission(id=post_id)

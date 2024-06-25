@@ -8,6 +8,7 @@ import praw
 BACKUP_SUBSCRIPTIONS = True
 BACKUP_MULTIREDDITS = True
 BACKUP_SAVED = True
+BACKUP_HIDDEN = True
 BACKUP_UPVOTED = True
 BACKUP_DOWNVOTED = True
 
@@ -21,7 +22,7 @@ else:
     sys.exit()
 
 reddit = praw.Reddit(username)
-backup = {"subreddits": [], "users": [], "multireddits": {}, "saved": [], "upvoted": [], "downvoted": []}
+backup = {"subreddits": [], "users": [], "multireddits": {}, "saved": [], "hidden": [], "upvoted": [], "downvoted": []}
 try:
     with open("backup.json", "r") as file:
         cache_backup = json.load(file)
@@ -43,8 +44,14 @@ if BACKUP_SUBSCRIPTIONS:
     print(f"Backed up {len(backup['subreddits'])} subscribed subreddits.")
     print(f"Backed up {len(backup['users'])} followed users.")
 elif cache_backup:
-    backup["subreddits"] = cache_backup["subreddits"]
-    backup["users"] = cache_backup["users"]
+    if "subreddits" in cache_backup:
+        backup["subreddits"] = cache_backup["subreddits"]
+    else:
+        backup["subreddits"] = []
+    if "users" in cache_backup:
+        backup["users"] = cache_backup["users"]
+    else:
+        backup["users"] = []
 
 
 # Backup multireddits
@@ -63,7 +70,10 @@ if BACKUP_MULTIREDDITS:
 
     print(f"Backed up {len(backup['multireddits'])} multireddits.")
 elif cache_backup:
-    backup["multireddits"] = cache_backup["multireddits"]
+    if "multireddits" in cache_backup:
+        backup["multireddits"] = cache_backup["multireddits"]
+    else:
+        backup["multireddits"] = {}
 
 me = reddit.user.me()
 
@@ -74,7 +84,23 @@ if BACKUP_SAVED:
 
     print(f"Backed up {len(backup['saved'])} saved posts.")
 elif cache_backup:
-    backup["saved"] = cache_backup["saved"]
+    if "saved" in cache_backup:
+        backup["saved"] = cache_backup["saved"]
+    else:
+        backup["saved"] = []
+
+
+# Backup hidden posts
+if BACKUP_HIDDEN:
+    for hidden_post in me.hidden(limit=None):
+        backup["hidden"].append(hidden_post.id)
+
+    print(f"Backed up {len(backup['hidden'])} hidden posts.")
+elif cache_backup:
+    if "hidden" in cache_backup:
+        backup["hidden"] = cache_backup["hidden"]
+    else:
+        backup["hidden"] = []
 
 
 # Backup upvoted posts
@@ -84,7 +110,10 @@ if BACKUP_UPVOTED:
 
     print(f"Backed up {len(backup['upvoted'])} upvoted posts.")
 elif cache_backup:
-    backup["upvoted"] = cache_backup["upvoted"]
+    if "upvoted" in cache_backup:
+        backup["upvoted"] = cache_backup["upvoted"]
+    else:
+        backup["upvoted"] = []
 
 
 # Backup upvoted posts
@@ -94,7 +123,10 @@ if BACKUP_DOWNVOTED:
 
     print(f"Backed up {len(backup['downvoted'])} downvoted posts.")
 elif cache_backup:
-    backup["downvoted"] = cache_backup["downvoted"]
+    if "downvoted" in cache_backup:
+        backup["downvoted"] = cache_backup["downvoted"]
+    else:
+        backup["downvoted"] = []
 
 
 # Save backup to backup.json

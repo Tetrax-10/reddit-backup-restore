@@ -7,6 +7,7 @@ import praw
 CLEAR_SUBSCRIPTIONS = True
 CLEAR_MULTIREDDITS = True
 CLEAR_SAVED = True
+CLEAR_HIDDEN = True
 CLEAR_UPVOTED = False
 CLEAR_DOWNVOTED = False
 
@@ -50,6 +51,16 @@ if CLEAR_SAVED:
         except:
             print("Can't unsave saved post", saved_post.id)
     print("Unsaved all saved posts.")
+
+
+# Unhide all hidden posts
+if CLEAR_HIDDEN:
+    for hidden_post in me.hidden(limit=None):
+        try:
+            hidden_post.unhide()
+        except:
+            print("Can't unhide hidden post", hidden_post.id)
+    print("Unhid all hidden posts.")
 
 
 # Unvote all upvoted posts
