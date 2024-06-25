@@ -21,14 +21,14 @@ else:
     sys.exit()
 
 reddit = praw.Reddit(username)
-backup = {"subreddits": [], "users": [], "multireddits": {}, "saved":[], "upvoted":[], "downvoted":[]}
+backup = {"subreddits": [], "users": [], "multireddits": {}, "saved": [], "upvoted": [], "downvoted": []}
 try:
     with open("backup.json", "r") as file:
         cache_backup = json.load(file)
 except:
     cache_backup = None
 
-print("Backing up...")
+print(f"Backing up {username}...\n")
 
 
 # Backup subreddits
@@ -40,8 +40,8 @@ if BACKUP_SUBSCRIPTIONS:
         else:
             backup["subreddits"].append(subreddit_name)
 
-    print(f"Backed up {len(backup["subreddits"])} subscribed subreddits.")
-    print(f"Backed up {len(backup["users"])} followed users.")
+    print(f"Backed up {len(backup['subreddits'])} subscribed subreddits.")
+    print(f"Backed up {len(backup['users'])} followed users.")
 elif cache_backup:
     backup["subreddits"] = cache_backup["subreddits"]
     backup["users"] = cache_backup["users"]
@@ -61,7 +61,7 @@ if BACKUP_MULTIREDDITS:
 
         backup["multireddits"][multireddit_name] = temp
 
-    print(f"Backed up {len(backup["multireddits"])} multireddits.")
+    print(f"Backed up {len(backup['multireddits'])} multireddits.")
 elif cache_backup:
     backup["multireddits"] = cache_backup["multireddits"]
 
