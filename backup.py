@@ -7,10 +7,11 @@ import praw
 # value: True | False
 BACKUP_SUBSCRIPTIONS = True
 BACKUP_MULTIREDDITS = True
-BACKUP_SAVED = True
-BACKUP_HIDDEN = True
-BACKUP_UPVOTED = True
-BACKUP_DOWNVOTED = True
+BACKUP_SAVED_POSTS = True
+BACKUP_SAVED_COMMENTS = True
+BACKUP_HIDDEN_POSTS = True
+BACKUP_UPVOTED_POSTS = True
+BACKUP_DOWNVOTED_POSTS = True
 
 # ---------- CONFIG ----------
 
@@ -22,7 +23,7 @@ else:
     sys.exit()
 
 reddit = praw.Reddit(username)
-backup = {"subreddits": [], "users": [], "multireddits": {}, "saved": [], "hidden": [], "upvoted": [], "downvoted": []}
+backup = {"subreddits": [], "users": [], "multireddits": {}, "saved_posts": [], "saved_comments": [], "hidden_posts": [], "upvoted_posts": [], "downvoted_posts": []}
 try:
     with open("backup.json", "r") as file:
         cache_backup = json.load(file)
@@ -78,55 +79,66 @@ elif cache_backup:
 me = reddit.user.me()
 
 # Backup saved posts
-if BACKUP_SAVED:
-    for saved_post in me.saved(limit=None):
-        backup["saved"].append(saved_post.id)
-
-    print(f"Backed up {len(backup['saved'])} saved posts.")
+if BACKUP_SAVED_POSTS or BACKUP_SAVED_COMMENTS:
+    for saved_item in me.saved(limit=None):
+        if isinstance(saved_item, praw.models.Submission):
+            if BACKUP_SAVED_POSTS:
+                backup["saved_posts"].append(saved_item.id)
+        else:
+            if BACKUP_SAVED_COMMENTS:
+                backup["saved_comments"].append(saved_item.id)
+    if BACKUP_SAVED_POSTS:
+        print(f"Backed up {len(backup['saved_posts'])} saved posts.")
+    if BACKUP_SAVED_COMMENTS:
+        print(f"Backed up {len(backup['saved_comments'])} saved comments.")
 elif cache_backup:
-    if "saved" in cache_backup:
-        backup["saved"] = cache_backup["saved"]
+    if "saved_posts" in cache_backup:
+        backup["saved_posts"] = cache_backup["saved_posts"]
     else:
-        backup["saved"] = []
+        backup["saved_posts"] = []
+    if "saved_comments" in cache_backup:
+        backup["saved_comments"] = cache_backup["saved_comments"]
+    else:
+        backup["saved_comments"] = []
 
 
 # Backup hidden posts
-if BACKUP_HIDDEN:
+if BACKUP_HIDDEN_POSTS:
     for hidden_post in me.hidden(limit=None):
-        backup["hidden"].append(hidden_post.id)
+        backup["hidden_posts"].append(hidden_post.id)
 
-    print(f"Backed up {len(backup['hidden'])} hidden posts.")
+    print(f"Backed up {len(backup['hidden_posts'])} hidden posts.")
 elif cache_backup:
-    if "hidden" in cache_backup:
-        backup["hidden"] = cache_backup["hidden"]
+    if "hidden_posts" in cache_backup:
+        backup["hidden_posts"] = cache_backup["hidden_posts"]
     else:
-        backup["hidden"] = []
+        backup["hidden_posts"] = []
 
 
 # Backup upvoted posts
-if BACKUP_UPVOTED:
+if BACKUP_UPVOTED_POSTS:
     for upvoted_post in me.upvoted(limit=None):
-        backup["upvoted"].append(upvoted_post.id)
+        backup["upvoted_posts"].append(upvoted_post.id)
 
-    print(f"Backed up {len(backup['upvoted'])} upvoted posts.")
+    print(f"Backed up {len(backup['upvoted_posts'])} upvoted posts.")
 elif cache_backup:
-    if "upvoted" in cache_backup:
-        backup["upvoted"] = cache_backup["upvoted"]
+    if "upvoted_posts" in cache_backup:
+        backup["upvoted_posts"] = cache_backup["upvoted_posts"]
     else:
-        backup["upvoted"] = []
+        backup["upvoted_posts"] = []
 
 
 # Backup upvoted posts
-if BACKUP_DOWNVOTED:
+if BACKUP_DOWNVOTED_POSTS:
     for downvoted_post in me.downvoted(limit=None):
-        backup["downvoted"].append(downvoted_post.id)
+        backup["downvoted_posts"].append(downvoted_post.id)
 
-    print(f"Backed up {len(backup['downvoted'])} downvoted posts.")
+    print(f"Backed up {len(backup['downvoted_posts'])} downvoted posts.")
 elif cache_backup:
-    if "downvoted" in cache_backup:
-        backup["downvoted"] = cache_backup["downvoted"]
+    if "downvoted_posts" in cache_backup:
+        backup["downvoted_posts"] = cache_backup["downvoted_posts"]
     else:
-        backup["downvoted"] = []
+        backup["downvoted_posts"] = []
 
 
 # Save backup to backup.json

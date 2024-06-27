@@ -7,10 +7,11 @@ import praw
 # value: True | False
 RESTORE_SUBSCRIPTIONS = True
 RESTORE_MULTIREDDITS = True
-RESTORE_SAVED = True
-RESTORE_HIDDEN = True
-RESTORE_UPVOTED = False
-RESTORE_DOWNVOTED = False
+RESTORE_SAVED_POSTS = True
+RESTORE_SAVED_COMMENTS = True
+RESTORE_HIDDEN_POSTS = True
+RESTORE_UPVOTED_POSTS = False
+RESTORE_DOWNVOTED_POSTS = False
 
 # value: private | public | hidden
 MULTIREDDIT_VISIBILITY = "private"
@@ -58,10 +59,22 @@ if RESTORE_MULTIREDDITS and "multireddits" in backup:
     print("Restored multireddits.")
 
 
+# Restore saved comments
+if RESTORE_SAVED_COMMENTS and "saved_comments" in backup:
+    backup["saved_comments"].reverse()
+    for comment_id in backup["saved_comments"]:
+        try:
+            comment = reddit.comment(id=comment_id)
+            comment.save()
+        except:
+            print("Can't save comment", comment_id)
+    print("Restored saved comments.")
+
+
 # Restore saved posts
-if RESTORE_SAVED and "saved" in backup:
-    backup["saved"].reverse()
-    for post_id in backup["saved"]:
+if RESTORE_SAVED_POSTS and "saved_posts" in backup:
+    backup["saved_posts"].reverse()
+    for post_id in backup["saved_posts"]:
         try:
             submission = reddit.submission(id=post_id)
             submission.save()
@@ -71,9 +84,9 @@ if RESTORE_SAVED and "saved" in backup:
 
 
 # Restore hidden posts
-if RESTORE_HIDDEN and "hidden" in backup:
-    backup["hidden"].reverse()
-    for post_id in backup["hidden"]:
+if RESTORE_HIDDEN_POSTS and "hidden_posts" in backup:
+    backup["hidden_posts"].reverse()
+    for post_id in backup["hidden_posts"]:
         try:
             submission = reddit.submission(id=post_id)
             submission.hide()
@@ -83,8 +96,8 @@ if RESTORE_HIDDEN and "hidden" in backup:
 
 
 # Restore upvoted posts
-if RESTORE_UPVOTED and "upvoted" in backup:
-    for post_id in backup["upvoted"]:
+if RESTORE_UPVOTED_POSTS and "upvoted_posts" in backup:
+    for post_id in backup["upvoted_posts"]:
         try:
             submission = reddit.submission(id=post_id)
             submission.upvote()
@@ -94,8 +107,8 @@ if RESTORE_UPVOTED and "upvoted" in backup:
 
 
 # Restore downvoted posts
-if RESTORE_DOWNVOTED and "downvoted" in backup:
-    for post_id in backup["downvoted"]:
+if RESTORE_DOWNVOTED_POSTS and "downvoted_posts" in backup:
+    for post_id in backup["downvoted_posts"]:
         try:
             submission = reddit.submission(id=post_id)
             submission.downvote()

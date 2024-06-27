@@ -6,10 +6,11 @@ import praw
 # value: True | False
 CLEAR_SUBSCRIPTIONS = True
 CLEAR_MULTIREDDITS = True
-CLEAR_SAVED = True
-CLEAR_HIDDEN = True
-CLEAR_UPVOTED = False
-CLEAR_DOWNVOTED = False
+CLEAR_SAVED_POSTS = True
+CLEAR_SAVED_COMMENTS = True
+CLEAR_HIDDEN_POSTS = True
+CLEAR_UPVOTED_POSTS = False
+CLEAR_DOWNVOTED_POSTS = False
 
 # value: True | False
 DELETE_YOUR_POSTS = False
@@ -48,17 +49,28 @@ if CLEAR_MULTIREDDITS:
 me = reddit.user.me()
 
 # Unsave all saved posts
-if CLEAR_SAVED:
-    for saved_post in me.saved(limit=None):
-        try:
-            saved_post.unsave()
-        except:
-            print("Can't unsave saved post", saved_post.id)
-    print("Unsaved all saved posts.")
+if CLEAR_SAVED_POSTS or CLEAR_SAVED_COMMENTS:
+    for saved_item in me.saved(limit=None):
+        if isinstance(saved_item, praw.models.Submission):
+            if CLEAR_SAVED_POSTS:
+                try:
+                    saved_item.unsave()
+                except:
+                    print("Can't unsave saved post", saved_item.id)
+        else:
+            if CLEAR_SAVED_COMMENTS:
+                try:
+                    saved_item.unsave()
+                except:
+                    print("Can't unsave saved comment", saved_item.id)
+    if CLEAR_SAVED_POSTS:
+        print("Unsaved all saved posts.")
+    if CLEAR_SAVED_COMMENTS:
+        print("Unsaved all saved comments.")
 
 
 # Unhide all hidden posts
-if CLEAR_HIDDEN:
+if CLEAR_HIDDEN_POSTS:
     for hidden_post in me.hidden(limit=None):
         try:
             hidden_post.unhide()
@@ -68,7 +80,7 @@ if CLEAR_HIDDEN:
 
 
 # Unvote all upvoted posts
-if CLEAR_UPVOTED:
+if CLEAR_UPVOTED_POSTS:
     for upvoted_post in me.upvoted(limit=None):
         try:
             upvoted_post.clear_vote()
@@ -78,7 +90,7 @@ if CLEAR_UPVOTED:
 
 
 # Unvote all downvoted posts
-if CLEAR_DOWNVOTED:
+if CLEAR_DOWNVOTED_POSTS:
     for downvoted_post in me.downvoted(limit=None):
         try:
             downvoted_post.clear_vote()
