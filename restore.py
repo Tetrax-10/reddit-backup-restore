@@ -5,7 +5,8 @@ import praw
 # ---------- CONFIG ----------
 
 # value: True | False
-RESTORE_SUBSCRIPTIONS = True
+RESTORE_SUBSCRIBED_SUBREDDITS = True
+RESTORE_FOLLOWED_USERS = True
 RESTORE_MULTIREDDITS = True
 RESTORE_SAVED_POSTS = True
 RESTORE_SAVED_COMMENTS = True
@@ -37,15 +38,22 @@ print(f"Restoring backup on {username}...\n")
 
 
 # Subscribe to subreddits and follow users
-if RESTORE_SUBSCRIPTIONS and "subreddits" in backup and "users" in backup:
-    subreddit_to_subscribe = backup["subreddits"] + backup["users"]
+if (RESTORE_SUBSCRIBED_SUBREDDITS and "subreddits" in backup) or (RESTORE_FOLLOWED_USERS and "users" in backup):
+    subreddit_to_subscribe = []
+    if RESTORE_SUBSCRIBED_SUBREDDITS:
+        subreddit_to_subscribe += backup["subreddits"]
+    if RESTORE_FOLLOWED_USERS:
+        subreddit_to_subscribe += backup["users"]
 
     for subreddit in subreddit_to_subscribe:
         try:
             reddit.subreddit(subreddit).subscribe()
         except:
             print("Can't subscribe to", subreddit)
-    print("Restored subscribed subreddits and followed users.")
+    if RESTORE_SUBSCRIBED_SUBREDDITS:
+        print("Restored subscribed subreddits.")
+    if RESTORE_FOLLOWED_USERS:
+        print("Restored followed users.")
 
 
 # Create multireddits and add subreddits and users

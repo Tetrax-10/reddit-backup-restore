@@ -4,7 +4,8 @@ import praw
 # ---------- CONFIG ----------
 
 # value: True | False
-CLEAR_SUBSCRIPTIONS = True
+CLEAR_SUBSCRIBED_SUBREDDITS = True
+CLEAR_FOLLOWED_USERS = True
 CLEAR_MULTIREDDITS = True
 CLEAR_SAVED_POSTS = True
 CLEAR_SAVED_COMMENTS = True
@@ -29,13 +30,23 @@ reddit = praw.Reddit(username)
 print(f"Clearing {username}...\n")
 
 # Unsubscribe all subreddits and unfollow all users
-if CLEAR_SUBSCRIPTIONS:
+if CLEAR_SUBSCRIBED_SUBREDDITS or CLEAR_FOLLOWED_USERS:
     for subreddit in reddit.user.subreddits(limit=None):
+        subreddit_name = subreddit.display_name
         try:
-            subreddit.unsubscribe()
+            if subreddit_name.startswith("u_"):
+                if CLEAR_FOLLOWED_USERS:
+                    subreddit.unsubscribe()
+            else:
+                if CLEAR_SUBSCRIBED_SUBREDDITS:
+                    subreddit.unsubscribe()
         except:
             print("Can't unsubscribe subreddit", subreddit.display_name)
-    print("Unsubscribed all subreddits and unfollowed all users.")
+    if CLEAR_SUBSCRIBED_SUBREDDITS:
+        print("Unsubscribed all subreddits.")
+    if CLEAR_FOLLOWED_USERS:
+        print("Unfollowed all users.")
+
 
 # Delete all multireddits
 if CLEAR_MULTIREDDITS:
@@ -45,6 +56,7 @@ if CLEAR_MULTIREDDITS:
         except:
             print("Can't delete multireddit", multireddit.display_name)
     print("Deleted all multireddits.")
+
 
 me = reddit.user.me()
 

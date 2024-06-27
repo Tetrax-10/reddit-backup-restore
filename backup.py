@@ -5,7 +5,8 @@ import praw
 # ---------- CONFIG ----------
 
 # value: True | False
-BACKUP_SUBSCRIPTIONS = True
+BACKUP_SUBSCRIBED_SUBREDDITS = True
+BACKUP_FOLLOWED_USERS = True
 BACKUP_MULTIREDDITS = True
 BACKUP_SAVED_POSTS = True
 BACKUP_SAVED_COMMENTS = True
@@ -34,16 +35,20 @@ print(f"Backing up {username}...\n")
 
 
 # Backup subreddits
-if BACKUP_SUBSCRIPTIONS:
+if BACKUP_SUBSCRIBED_SUBREDDITS or BACKUP_FOLLOWED_USERS:
     for subreddit in reddit.user.subreddits(limit=None):
         subreddit_name = subreddit.display_name
         if subreddit_name.startswith("u_"):
-            backup["users"].append(subreddit_name)
+            if BACKUP_FOLLOWED_USERS:
+                backup["users"].append(subreddit_name)
         else:
-            backup["subreddits"].append(subreddit_name)
+            if BACKUP_SUBSCRIBED_SUBREDDITS:
+                backup["subreddits"].append(subreddit_name)
 
-    print(f"Backed up {len(backup['subreddits'])} subscribed subreddits.")
-    print(f"Backed up {len(backup['users'])} followed users.")
+    if BACKUP_SUBSCRIBED_SUBREDDITS:
+        print(f"Backed up {len(backup['subreddits'])} subscribed subreddits.")
+    if BACKUP_FOLLOWED_USERS:
+        print(f"Backed up {len(backup['users'])} followed users.")
 elif cache_backup:
     if "subreddits" in cache_backup:
         backup["subreddits"] = cache_backup["subreddits"]
@@ -76,6 +81,7 @@ elif cache_backup:
     else:
         backup["multireddits"] = {}
 
+
 me = reddit.user.me()
 
 # Backup saved posts
@@ -87,6 +93,7 @@ if BACKUP_SAVED_POSTS or BACKUP_SAVED_COMMENTS:
         else:
             if BACKUP_SAVED_COMMENTS:
                 backup["saved_comments"].append(saved_item.id)
+
     if BACKUP_SAVED_POSTS:
         print(f"Backed up {len(backup['saved_posts'])} saved posts.")
     if BACKUP_SAVED_COMMENTS:
