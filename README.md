@@ -1,6 +1,6 @@
 # Reddit Backup Restore
 
-Script to backup and restore your joined subreddits, multireddits, followed users, saved posts, hidden posts, upvoted posts and downvoted posts.
+Script to backup and restore your joined subreddits, multireddits, followed users, saved posts, saved comments, hidden posts, upvoted posts and downvoted posts.
 
 ## Why, I made this?
 
@@ -10,11 +10,11 @@ Reddit shadow banned my secondary account without specifying any reasons. Theref
 
 ## Setup
 
-1. [Download this repo](https://github.com/Tetrax-10/reddit-backup-restore/archive/refs/heads/main.zip) or clone this repository
+1. Make sure you have [python](https://www.python.org) installed.
 
-2. Make sure you have [python](https://www.python.org) installed.
+2. Download the [latest release](https://github.com/Tetrax-10/reddit-backup-restore/releases/latest)
 
-3. Open a terminal inside the `reddit-backup-restore` folder and run: `pip install praw`.
+3. Open a terminal inside the `reddit-backup-restore` folder and run: `pip install -r requirements.txt`.
 
 4. Replace the placeholders inside `praw.ini` file.
 
@@ -28,43 +28,45 @@ Reddit shadow banned my secondary account without specifying any reasons. Theref
 
 ### 1. Run this to backup your main account
 
-This will create a `backup.json` where all your joined subreddits, multireddits, followed users, saved posts, hidden posts, upvoted posts and downvoted posts will be stored.
+This will create a `backup.json` where all `account_1_username`'s user data will be stored.
 
 ```sh
-python backup.py account_1_username
+python reddit.py backup account_1_username
 ```
 
 ![backup](https://raw.githubusercontent.com/Tetrax-10/reddit-backup-restore/main/assets/backup.png)
+
+_Note:_ **Followed multireddits** and **multireddit favorited data** will not be backed due to reddit's API limitation.
 
 </br>
 
 ### 2. **Run this to restore the backup to your secondary account**
 
-This will restore all your joined subreddits, multireddits, followed users saved posts and hidden posts from `backup.json`.
+This will restore all `account_1_username`'s user data which was backed up to `backup.json` to `account_2_username`.
 
 ```sh
-python restore.py account_2_username
+python reddit.py restore account_2_username
 ```
 
 ![restore](https://raw.githubusercontent.com/Tetrax-10/reddit-backup-restore/main/assets/restore.png)
 
-**_Note:_** By default, **upvoted and downvoted posts** will not be restored. Modifying upvotes and downvotes in bulk may trigger _Reddit's automated vote manipulation detector_, which may lead to **permanent ban**. **_Use at your own risk_**. You can modify the config section inside `restore.py` to enable this feature.
+_Note:_ By default, **upvoted and downvoted posts will not be restored**. Modifying upvotes and downvotes in bulk may trigger _Reddit's automated vote manipulation detector_, which may lead to **permanent ban**. **_Use at your own risk_**. You can modify the `config.ini` to enable this feature.
 
 </br>
 
-### 3. Extra feature (clear account's user data):
+### 3. Extra feature (clear an account's user data):
 
-If you want to unsubscribe all joined subreddits, unfollow all users, delete all multireddits, saved posts and hidden posts, run:
+If you want to unsubscribe all joined subreddits, unfollow all users, delete all multireddits, saved posts, saved comments and hidden posts, run:
 
 ```sh
-python clear.py account_username
+python reddit.py clear account_username
 ```
 
 ![clear](https://raw.githubusercontent.com/Tetrax-10/reddit-backup-restore/main/assets/clear.png)
 
-again, upvoted posts and downvoted posts will not be cleared by default. You can modify the config section inside `clear.py` to enable this feature.
+Again, upvoted posts and downvoted posts will not be cleared by default. You can modify the `config.ini` to enable this feature.
 
-You can also delete all your posts and comments by modifying the config section inside `clear.py`. By default, **your posts and comments will not be deleted**.
+You can also delete all your posts and comments by modifying the `config.ini`. By default, **your posts and comments will not be deleted**.
 
 </br>
 

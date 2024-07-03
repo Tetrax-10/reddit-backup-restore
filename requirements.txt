@@ -1,0 +1,2 @@
+ini-parser==1.2.1
+praw==7.7.1
