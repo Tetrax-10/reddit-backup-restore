@@ -34,7 +34,7 @@ This will create a `backup.json` where all `account_1_username`'s user data will
 python reddit.py backup account_1_username
 ```
 
-![backup](https://raw.githubusercontent.com/Tetrax-10/reddit-backup-restore/main/assets/backup.png)
+<img src="https://raw.githubusercontent.com/Tetrax-10/reddit-backup-restore/main/assets/backup.png" width="400px"></img>
 
 _Note:_ **Followed multireddits** and **multireddit favorited data** will not be backed due to reddit's API limitation.
 
@@ -48,7 +48,7 @@ This will restore all `account_1_username`'s user data which was backed up to `b
 python reddit.py restore account_2_username
 ```
 
-![restore](https://raw.githubusercontent.com/Tetrax-10/reddit-backup-restore/main/assets/restore.png)
+<img src="https://raw.githubusercontent.com/Tetrax-10/reddit-backup-restore/main/assets/restore.png" width="400px"></img>
 
 _Note:_ By default, **upvoted and downvoted posts will not be restored**. Modifying upvotes and downvotes in bulk may trigger _Reddit's automated vote manipulation detector_, which may lead to **permanent ban**. **_Use at your own risk_**. You can modify the `config.ini` to enable this feature.
 
@@ -62,7 +62,7 @@ If you want to unsubscribe all joined subreddits, unfollow all users, delete all
 python reddit.py clear account_username
 ```
 
-![clear](https://raw.githubusercontent.com/Tetrax-10/reddit-backup-restore/main/assets/clear.png)
+<img src="https://raw.githubusercontent.com/Tetrax-10/reddit-backup-restore/main/assets/clear.png" width="400px"></img>
 
 Again, upvoted posts and downvoted posts will not be cleared by default. You can modify the `config.ini` to enable this feature.
 
