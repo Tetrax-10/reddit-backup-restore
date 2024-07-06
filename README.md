@@ -36,7 +36,7 @@ python reddit.py backup account_1_username
 
 <img src="https://raw.githubusercontent.com/Tetrax-10/reddit-backup-restore/main/assets/backup.png" width="400px"></img>
 
-_Note:_ **Followed multireddits** and **multireddit favorited data** will not be backed due to reddit's API limitation.
+_Note:_ **Followed multireddits** will not be backed due to reddit's API limitation.
 
 </br>
 
