@@ -35,6 +35,20 @@ def restore_joined_subreddits_and_followed_users(reddit, is_joined_subreddits, i
         print(f"Restored {user_count}/{len(backup['followed_users'])} followed users")
 
 
+def star_multireddit(reddit, multireddit, make_favorite=True):
+    try:
+        reddit.post(
+            "/api/multi/favorite?raw_json=1&gilding_detail=1",
+            params={
+                "multipath": multireddit,
+                "make_favorite": "true" if make_favorite else "false",
+                "api_type": "json",
+            },
+        )
+    except:
+        print("Can't star multireddit", multireddit)
+
+
 def restore_multireddits(reddit, overridden_multireddits_visibility):
     user_multireddits = reddit.user.multireddits()
 
@@ -46,12 +60,18 @@ def restore_multireddits(reddit, overridden_multireddits_visibility):
             try:
                 existing_multireddit.update(display_name=(multi_data["name"]), subreddits=subreddits, description_md=multi_data["description_md"], visibility=multi_data["visibility"] if overridden_multireddits_visibility == None else overridden_multireddits_visibility)
                 count += 1
+                if multi_data["is_favorited"] and (not existing_multireddit.is_favorited):
+                    star_multireddit(reddit, existing_multireddit)
+                elif (not multi_data["is_favorited"]) and existing_multireddit.is_favorited:
+                    star_multireddit(reddit, existing_multireddit, make_favorite=False)
             except:
                 print("Can't update multireddit", multi_data["name"])
         else:
             try:
                 multireddit = reddit.multireddit.create(display_name=(multi_data["name"]), subreddits=subreddits, description_md=multi_data["description_md"], visibility=multi_data["visibility"] if overridden_multireddits_visibility == None else overridden_multireddits_visibility)
                 count += 1
+                if multi_data["is_favorited"]:
+                    star_multireddit(reddit, multireddit)
             except:
                 print("Can't create multireddit", multi_data["name"])
     print(f"Restored {count}/{len(backup['multireddits'])} multireddits")
