@@ -28,7 +28,7 @@ def restore_joined_subreddits_and_followed_users(reddit, is_joined_subreddits, i
             else:
                 subreddit_count += 1
         except:
-            print(f"Can't {'follow' if subreddit_name.startswith('u_') else 'join'}", subreddit)
+            print(f"Can't {'follow' if subreddit.startswith('u_') else 'join'}", subreddit)
     if is_joined_subreddits:
         print(f"Restored {subreddit_count}/{len(backup['joined_subreddits'])} joined subreddits")
     if is_followed_users:
