@@ -10,6 +10,10 @@ Reddit shadow banned my secondary account without specifying any reasons. Theref
 
 ## Setup
 
+> [!CAUTION]
+>
+> As of (Nov 17, 2025), there's no way to generate an access token unless you directly contact Reddit admins — and it's pretty unlikely they'll approve this kind of application. You can read more about it [here](https://www.reddit.com/r/redditdev/comments/1oug31u/introducing_the_responsible_builder_policy_new/). So there's no point following these steps unless you already have a valid `client_id` and `client_secret`.
+
 1. Make sure you have [python](https://www.python.org) installed.
 
 2. Download the [latest release](https://github.com/Tetrax-10/reddit-backup-restore/releases/latest)
